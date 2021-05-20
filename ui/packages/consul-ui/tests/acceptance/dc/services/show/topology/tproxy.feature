@@ -33,4 +33,69 @@ Feature: dc / services / show / topology / tproxy
     ---
     Then the url should be /datacenter/services/web/topology
     And I see the tabs.topologyTab.defaultAllowNotice object
+  Scenario: WildcardIntetions and FilteredByACLs are set to true
+    Given 1 topology model from yaml
+    ---
+      FilteredByACLs: true
+      TransparentProxy: false
+      DefaultAllow: false
+      WildcardIntention: true
+    ---
+    When I visit the service page for yaml
+    ---
+      dc: datacenter
+      service: web
+    ---
+    Then the url should be /datacenter/services/web/topology
+    And I see the tabs.topologyTab.filteredByACLs object
+    And I see the tabs.topologyTab.wildcardIntention object
+  Scenario: TProxy for a downstream is set to false
+    Given 1 topology model from yaml
+    ---
+      FilteredByACLs: false
+      TransparentProxy: false
+      DefaultAllow: false
+      WildcardIntention: false
+      Downstreams:
+        - Name: db
+          Namespace: default
+          Datacenter: datacenter
+          Intention:
+            Allowed: true
+          Source: specific-intention
+          TransparentProxy: false
+    ---
+    When I visit the service page for yaml
+    ---
+      dc: datacenter
+      service: web
+    ---
+    Then the url should be /datacenter/services/web/topology
+    And I see the tabs.topologyTab.undefinedIntention object
+  Scenario: TProxy for a downstream is set to true
+    Given 1 topology model from yaml
+    ---
+      FilteredByACLs: false
+      TransparentProxy: false
+      DefaultAllow: false
+      WildcardIntention: false
+      Downstreams:
+        - Name: db
+          Namespace: default
+          Datacenter: datacenter
+          Intention:
+            Allowed: true
+          Source: specific-intention
+          TransparentProxy: true
+    ---
+    When I visit the service page for yaml
+    ---
+      dc: datacenter
+      service: web
+    ---
+    Then the url should be /datacenter/services/web/topology
+    And I don't see the tabs.topologyTab.undefinedIntention object
+
+
+
 

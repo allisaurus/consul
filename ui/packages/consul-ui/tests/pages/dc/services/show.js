@@ -39,6 +39,15 @@ export default function(
     defaultAllowNotice: {
       see: isPresent('[data-test-notice="default-allow"]'),
     },
+    filteredByACLs: {
+      see: isPresent('[data-test-notice="filtered-by-ACLs"]'),
+    },
+    wildcardIntention: {
+      see: isPresent('[data-test-notice="wildcard-intention"]'),
+    },
+    undefinedIntention: {
+      see: isPresent('[data-test-notice="undefined-intention"]'),
+    },
   };
   page.tabs.upstreamsTab = {
     services: collection('.consul-upstream-list > ul > li:not(:first-child)', {
