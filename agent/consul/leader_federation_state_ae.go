@@ -31,12 +31,12 @@ func (s *Server) startFederationStateAntiEntropy() {
 	if s.config.DisableFederationStateAntiEntropy {
 		return
 	}
-	s.leaderRoutineManager.Start(federationStateAntiEntropyRoutineName, s.federationStateAntiEntropySync)
+	s.leaderRoutineManager.Start(context.Background(), federationStateAntiEntropyRoutineName, s.federationStateAntiEntropySync)
 
 	// If this is the primary, then also prune any stale datacenters from the
 	// list of federation states.
 	if s.config.PrimaryDatacenter == s.config.Datacenter {
-		s.leaderRoutineManager.Start(federationStatePruningRoutineName, s.federationStatePruning)
+		s.leaderRoutineManager.Start(context.Background(), federationStatePruningRoutineName, s.federationStatePruning)
 	}
 }
 

@@ -43,6 +43,7 @@ import (
 	"github.com/hashicorp/consul/agent/structs"
 	"github.com/hashicorp/consul/agent/token"
 	"github.com/hashicorp/consul/lib"
+	"github.com/hashicorp/consul/lib/gort"
 	"github.com/hashicorp/consul/logging"
 	"github.com/hashicorp/consul/proto/pbsubscribe"
 	"github.com/hashicorp/consul/tlsutil"
@@ -298,7 +299,7 @@ type Server struct {
 	dcSupportsIntentionsAsConfigEntries int32
 
 	// Manager to handle starting/stopping go routines when establishing/revoking raft leadership
-	leaderRoutineManager *LeaderRoutineManager
+	leaderRoutineManager *gort.Manager
 
 	// embedded struct to hold all the enterprise specific data
 	EnterpriseServer
@@ -375,7 +376,7 @@ func NewServer(config *Config, flat Deps) (*Server, error) {
 		tombstoneGC:             gc,
 		serverLookup:            NewServerLookup(),
 		shutdownCh:              shutdownCh,
-		leaderRoutineManager:    NewLeaderRoutineManager(logger),
+		leaderRoutineManager:    gort.NewManager(logger.Named(logging.Leader)),
 		aclAuthMethodValidators: authmethod.NewCache(),
 		fsm:                     newFSMFromConfig(flat.Logger, gc, config),
 	}

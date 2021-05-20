@@ -1,4 +1,4 @@
-package consul
+package gort
 
 import (
 	"context"
@@ -10,13 +10,11 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestLeaderRoutineManager(t *testing.T) {
+func TestManager(t *testing.T) {
 	t.Parallel()
 	var runs uint32
 	var running uint32
-	// tlog := testutil.NewCancellableTestLogger(t)
-	// defer tlog.Cancel()
-	mgr := NewLeaderRoutineManager(testutil.Logger(t))
+	mgr := NewManager(testutil.Logger(t))
 
 	run := func(ctx context.Context) error {
 		atomic.StoreUint32(&running, 1)
@@ -30,7 +28,7 @@ func TestLeaderRoutineManager(t *testing.T) {
 	require.False(t, mgr.IsRunning("not-found"))
 
 	// start
-	require.NoError(t, mgr.Start("run", run))
+	require.NoError(t, mgr.Start(context.Background(), "run", run))
 	require.True(t, mgr.IsRunning("run"))
 	retry.Run(t, func(r *retry.R) {
 		require.Equal(r, uint32(1), atomic.LoadUint32(&runs))
@@ -47,7 +45,7 @@ func TestLeaderRoutineManager(t *testing.T) {
 	})
 
 	// restart and stop
-	require.NoError(t, mgr.Start("run", run))
+	require.NoError(t, mgr.Start(context.Background(), "run", run))
 	retry.Run(t, func(r *retry.R) {
 		require.Equal(r, uint32(2), atomic.LoadUint32(&runs))
 		require.Equal(r, uint32(1), atomic.LoadUint32(&running))
@@ -63,7 +61,7 @@ func TestLeaderRoutineManager(t *testing.T) {
 
 	// start with a context
 	ctx, cancel := context.WithCancel(context.Background())
-	require.NoError(t, mgr.StartWithContext(ctx, "run", run))
+	require.NoError(t, mgr.Start(ctx, "run", run))
 	cancel()
 
 	// The function should exit of its own accord due to the parent

@@ -41,7 +41,7 @@ func (s *Server) startACLTokenReaping() {
 		return
 	}
 
-	s.leaderRoutineManager.Start(aclTokenReapingRoutineName, s.reapExpiredTokens)
+	s.leaderRoutineManager.Start(context.Background(), aclTokenReapingRoutineName, s.reapExpiredTokens)
 }
 
 func (s *Server) stopACLTokenReaping() {

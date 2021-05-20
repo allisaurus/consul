@@ -777,7 +777,7 @@ func (s *Server) startACLUpgrade() {
 		return
 	}
 
-	s.leaderRoutineManager.Start(aclUpgradeRoutineName, s.legacyACLTokenUpgrade)
+	s.leaderRoutineManager.Start(context.Background(), aclUpgradeRoutineName, s.legacyACLTokenUpgrade)
 }
 
 func (s *Server) stopACLUpgrade() {
@@ -840,7 +840,7 @@ func (s *Server) startLegacyACLReplication() {
 
 	s.initReplicationStatus()
 
-	s.leaderRoutineManager.Start(legacyACLReplicationRoutineName, s.runLegacyACLReplication)
+	s.leaderRoutineManager.Start(context.Background(), legacyACLReplicationRoutineName, s.runLegacyACLReplication)
 	s.logger.Info("started legacy ACL replication")
 	s.updateACLReplicationStatusRunning(structs.ACLReplicateLegacy)
 }
@@ -858,11 +858,11 @@ func (s *Server) startACLReplication() {
 	}
 
 	s.initReplicationStatus()
-	s.leaderRoutineManager.Start(aclPolicyReplicationRoutineName, s.runACLPolicyReplicator)
-	s.leaderRoutineManager.Start(aclRoleReplicationRoutineName, s.runACLRoleReplicator)
+	s.leaderRoutineManager.Start(context.Background(), aclPolicyReplicationRoutineName, s.runACLPolicyReplicator)
+	s.leaderRoutineManager.Start(context.Background(), aclRoleReplicationRoutineName, s.runACLRoleReplicator)
 
 	if s.config.ACLTokenReplication {
-		s.leaderRoutineManager.Start(aclTokenReplicationRoutineName, s.runACLTokenReplicator)
+		s.leaderRoutineManager.Start(context.Background(), aclTokenReplicationRoutineName, s.runACLTokenReplicator)
 		s.updateACLReplicationStatusRunning(structs.ACLReplicateTokens)
 	} else {
 		s.updateACLReplicationStatusRunning(structs.ACLReplicatePolicies)
@@ -979,7 +979,7 @@ func (s *Server) startConfigReplication() {
 		return
 	}
 
-	s.leaderRoutineManager.Start(configReplicationRoutineName, s.configReplicator.Run)
+	s.leaderRoutineManager.Start(context.Background(), configReplicationRoutineName, s.configReplicator.Run)
 }
 
 func (s *Server) stopConfigReplication() {
@@ -998,7 +998,7 @@ func (s *Server) startFederationStateReplication() {
 		s.gatewayLocator.SetLastFederationStateReplicationError(nil, false)
 	}
 
-	s.leaderRoutineManager.Start(federationStateReplicationRoutineName, s.federationStateReplicator.Run)
+	s.leaderRoutineManager.Start(context.Background(), federationStateReplicationRoutineName, s.federationStateReplicator.Run)
 }
 
 func (s *Server) stopFederationStateReplication() {
