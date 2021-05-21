@@ -20,7 +20,7 @@ export default class Topology extends Model {
   @attr() meta; // {}
 
   @computed('Downstreams')
-  get undefinedIntention() {
+  get notDefinedIntention() {
     let undefinedDownstream = false;
 
     undefinedDownstream =
@@ -32,11 +32,11 @@ export default class Topology extends Model {
     return undefinedDownstream;
   }
 
-  @computed('FilteredByACL', 'DefaultAllow', 'WildcardIntention', 'undefinedIntention')
+  @computed('FilteredByACL', 'DefaultAllow', 'WildcardIntention', 'notDefinedIntention')
   get collapsible() {
-    if (this.DefaultAllow && this.FilteredByACLs && this.undefinedIntention) {
+    if (this.DefaultAllow && this.FilteredByACLs && this.notDefinedIntention) {
       return true;
-    } else if (this.WildcardIntention && this.FilteredByACLs && this.undefinedIntention) {
+    } else if (this.WildcardIntention && this.FilteredByACLs && this.notDefinedIntention) {
       return true;
     }
 

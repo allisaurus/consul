@@ -71,7 +71,7 @@ Feature: dc / services / show / topology / tproxy
       service: web
     ---
     Then the url should be /datacenter/services/web/topology
-    And I see the tabs.topologyTab.undefinedIntention object
+    And I see the tabs.topologyTab.notDefinedIntention object
   Scenario: TProxy for a downstream is set to true
     Given 1 topology model from yaml
     ---
@@ -94,7 +94,7 @@ Feature: dc / services / show / topology / tproxy
       service: web
     ---
     Then the url should be /datacenter/services/web/topology
-    And I don't see the tabs.topologyTab.undefinedIntention object
+    And I don't see the tabs.topologyTab.notDefinedIntention object
 
 
 

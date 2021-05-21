@@ -45,8 +45,8 @@ export default function(
     wildcardIntention: {
       see: isPresent('[data-test-notice="wildcard-intention"]'),
     },
-    undefinedIntention: {
-      see: isPresent('[data-test-notice="undefined-intention"]'),
+    notDefinedIntention: {
+      see: isPresent('[data-test-notice="not-defined-intention"]'),
     },
   };
   page.tabs.upstreamsTab = {

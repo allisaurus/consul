@@ -50,9 +50,9 @@ as |route|>
             @action={{true}}
           />
         {{/if}}
-        {{#if topology.undefinedIntention}}
+        {{#if topology.notDefinedIntention}}
           <TopologyMetrics::Notice
-            data-test-notice='undefined-intention'
+            data-test-notice='not-defined-intention'
             @type="warning"
             @for="not-defined-intention"
             @link="{{env 'CONSUL_DOCS_URL'}}/connect/registration/service-registration#upstreams"
@@ -88,9 +88,9 @@ as |route|>
             @action={{true}}
           />
         {{/if}}
-        {{#if topology.undefinedIntention}}
+        {{#if topology.notDefinedIntention}}
           <TopologyMetrics::Notice
-            data-test-notice='undefined-intention'
+            data-test-notice='not-defined-intention'
             @type="warning"
             @for="not-defined-intention"
             @link="{{env 'CONSUL_DOCS_URL'}}/connect/registration/service-registration#upstreams"
