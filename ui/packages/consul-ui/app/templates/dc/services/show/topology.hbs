@@ -26,7 +26,7 @@ as |route|>
       <CollapsibleNotices>
         {{#if topology.FilteredByACLs}}
           <TopologyMetrics::Notice
-            data-test-notice='filtered-by-ACLs'
+            data-test-notice='filtered-by-acls'
             @type="info"
             @for="limited-access"
             @action={{false}}
@@ -64,7 +64,7 @@ as |route|>
     {{else}}
       {{#if topology.FilteredByACLs}}
           <TopologyMetrics::Notice
-            data-test-notice='filtered-by-ACLs'
+            data-test-notice='filtered-by-acls'
             @type="info"
             @for="limited-access"
             @action={{false}}

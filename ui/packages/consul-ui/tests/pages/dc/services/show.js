@@ -40,7 +40,7 @@ export default function(
       see: isPresent('[data-test-notice="default-allow"]'),
     },
     filteredByACLs: {
-      see: isPresent('[data-test-notice="filtered-by-ACLs"]'),
+      see: isPresent('[data-test-notice="filtered-by-acls"]'),
     },
     wildcardIntention: {
       see: isPresent('[data-test-notice="wildcard-intention"]'),
