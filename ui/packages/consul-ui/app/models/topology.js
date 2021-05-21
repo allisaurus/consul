@@ -19,16 +19,9 @@ export default class Topology extends Model {
   @attr() Downstreams; // Service[],
   @attr() meta; // {}
 
-  @computed('Upstreams', 'Downstreams')
+  @computed('Downstreams')
   get undefinedIntention() {
-    let undefinedUpstream = false;
     let undefinedDownstream = false;
-
-    undefinedUpstream =
-      this.Upstreams.filter(
-        item =>
-          item.Source === 'specific-intention' && !item.TransparentProxy && item.Intention.Allowed
-      ).length !== 0;
 
     undefinedDownstream =
       this.Downstreams.filter(
@@ -36,6 +29,17 @@ export default class Topology extends Model {
           item.Source === 'specific-intention' && !item.TransparentProxy && item.Intention.Allowed
       ).length !== 0;
 
-    return undefinedUpstream || undefinedDownstream;
+    return undefinedDownstream;
+  }
+
+  @computed('FilteredByACL', 'DefaultAllow', 'WildcardIntention', 'undefinedIntention')
+  get collapsible() {
+    if (this.DefaultAllow && this.FilteredByACLs && this.undefinedIntention) {
+      return true;
+    } else if (this.WildcardIntention && this.FilteredByACLs && this.undefinedIntention) {
+      return true;
+    }
+
+    return false;
   }
 }

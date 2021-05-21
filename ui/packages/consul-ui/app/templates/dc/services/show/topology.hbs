@@ -22,9 +22,7 @@ as |route|>
         </BlockSlot>
       </EmptyState>
     {{else}}
-
-
-    {{#if (or (and topology.DefaultAllow topology.FilteredByACLs topology.undefinedIntention) (and topology.WildcardIntention topology.FilteredByACLs topology.undefinedIntention))  }}
+    {{#if topology.collapsible}}
       <CollapsibleNotices>
         {{#if topology.FilteredByACLs}}
           <TopologyMetrics::Notice
